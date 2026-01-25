@@ -1,0 +1,29 @@
+{
+    "manifest_version": 3,
+    "name": "Social Saver - IG & Threads Exporter",
+    "version": "1.0.0",
+    "permissions": ["storage", "activeTab", "scripting", "sidePanel"],
+    "host_permissions": [
+      "https://www.instagram.com/*",
+      "https://www.threads.com/*"
+    ],
+    "side_panel": {
+    "default_path": "src/sidepanel/index.html"
+  },
+  "action": {
+    "default_title": "開啟 Social Saver 側邊欄"
+  },
+    "content_scripts": [
+      {
+        "matches": [
+          "https://www.instagram.com/*",
+          "https://www.threads.com/*"
+        ],
+        "js": ["src/content/index.ts"]
+      }
+    ],
+    "background": {
+     "service_worker": "src/background/index.ts",
+      "type": "module"
+    }
+  }
