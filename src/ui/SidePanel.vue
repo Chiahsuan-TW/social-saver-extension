@@ -1,27 +1,39 @@
 <template>
   <div class="sidebar-container">
     <h2>Social Saver</h2>
+    <p class="subtitle">你的社群貼文收藏工具</p>
     <hr />
 
     <div class="status-section">
       <p>
+        <span class="status-dot" :class="statusDotClass"></span>
         目前狀態: <strong>{{ status }}</strong>
       </p>
       <p>
-        已抓取數量: <span>{{ count }}</span>
+        已抓取貼文: <span>{{ count }} 篇</span>
       </p>
     </div>
 
     <div class="control-actions">
       <button @click="startCapture" :disabled="isCapturing" class="btn-start">
-        開始抓取 (IG / Threads)
+        ▶ 開始抓取儲存貼文
       </button>
       <button @click="stopCapture" :disabled="!isCapturing" class="btn-stop">
-        停止
+        ■ 停止
       </button>
-      <button @click="exportData" :disabled="count === 0" class="btn-export">
-        匯出 CSV
-      </button>
+
+      <div class="section-divider">
+        <span>匯出資料</span>
+      </div>
+
+      <div class="export-row">
+        <button @click="exportData" :disabled="count === 0" class="btn-export">
+          ↓ 匯出 CSV
+        </button>
+        <button @click="exportJson" :disabled="count === 0" class="btn-export">
+          ↓ 匯出 JSON
+        </button>
+      </div>
     </div>
 
     <div class="log-area">
@@ -31,12 +43,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 
 const status = ref("閒置中");
 const count = ref(0);
 const isCapturing = ref(false);
 const logs = ref<string[]>([]);
+
+const statusDotClass = computed(() => {
+  if (status.value === "執行中...") return "dot-running";
+  if (status.value === "已完成") return "dot-done";
+  if (status.value === "錯誤" || status.value === "已停止") return "dot-error";
+  return "dot-idle";
+});
 
 // 發送訊息給 Background
 const startCapture = async () => {
@@ -118,6 +137,34 @@ const exportData = () => {
   }
 };
 
+const exportJson = () => {
+  if (capturedData.value.length === 0) {
+    addLog("沒有資料可供匯出");
+    return;
+  }
+
+  addLog("正在準備匯出 JSON 檔案...");
+
+  try {
+    const json = JSON.stringify(capturedData.value, null, 2);
+    const blob = new Blob([json], { type: "application/json;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.setAttribute("download", `social_export_${Date.now()}.json`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    addLog(`成功匯出 ${capturedData.value.length} 筆資料`);
+  } catch (error) {
+    addLog(`匯出失敗: ${error}`);
+    console.error("Export Error:", error);
+  }
+};
+
 const addLog = (msg: string) => {
   logs.value.unshift(`[${new Date().toLocaleTimeString()}] ${msg}`);
 };
@@ -164,33 +211,118 @@ onMounted(() => {
   padding: 16px;
   font-family: sans-serif;
 }
+
+h2 {
+  margin: 0 0 2px;
+}
+
+.subtitle {
+  margin: 0 0 12px;
+  font-size: 12px;
+  color: #999;
+}
+
 .status-section {
   margin-bottom: 20px;
-  padding: 10px;
+  padding: 10px 14px;
   background: #f4f4f4;
   border-radius: 8px;
 }
+
+.status-section p {
+  margin: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-idle    { background: #aaa; }
+.dot-running { background: #42b883; }
+.dot-done    { background: #4a90e2; }
+.dot-error   { background: #ff5f5f; }
+
 .control-actions button {
   width: 100%;
   margin-bottom: 10px;
-  padding: 8px;
+  padding: 10px;
   cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+  border: none;
 }
+
 .btn-start {
   background: #42b883;
   color: white;
-  border: none;
 }
+.btn-start:disabled {
+  background: #a8d5c2;
+  cursor: not-allowed;
+}
+
 .btn-stop {
   background: #ff5f5f;
   color: white;
-  border: none;
 }
+.btn-stop:disabled {
+  background: #ffb3b3;
+  cursor: not-allowed;
+}
+
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0 10px;
+  color: #aaa;
+  font-size: 12px;
+}
+.section-divider::before,
+.section-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #ddd;
+}
+
+.export-row {
+  display: flex;
+  gap: 8px;
+}
+.export-row .btn-export {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.btn-export {
+  background: #fff;
+  color: #444;
+  border: 1px solid #ddd !important;
+}
+.btn-export:disabled {
+  color: #bbb;
+  border-color: #eee !important;
+  cursor: not-allowed;
+}
+.btn-export:not(:disabled):hover {
+  background: #f5f5f5;
+}
+
 .log-area {
   margin-top: 20px;
   font-size: 12px;
   color: #666;
   max-height: 200px;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 </style>
