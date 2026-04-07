@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Social Saver</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      max-width: 720px;
+      margin: 48px auto;
+      padding: 0 24px;
+      color: #333;
+      line-height: 1.7;
+    }
+    h1 { font-size: 28px; margin-bottom: 4px; }
+    h2 { font-size: 18px; margin-top: 36px; color: #111; }
+    p, li { font-size: 15px; color: #444; }
+    ul { padding-left: 20px; }
+    .meta { font-size: 13px; color: #999; margin-bottom: 40px; }
+    hr { border: none; border-top: 1px solid #eee; margin: 40px 0; }
+  </style>
+</head>
+<body>
+  <h1>Privacy Policy</h1>
+  <p class="meta">Last updated: April 7, 2026 &nbsp;·&nbsp; Social Saver - IG &amp; Threads Exporter</p>
+
+  <h2>Overview</h2>
+  <p>
+    Social Saver is a Chrome extension that allows users to collect post links and
+    thumbnails from Instagram and Threads, and export that data locally as CSV or JSON files.
+    We are committed to protecting your privacy.
+  </p>
+
+  <h2>Data We Access</h2>
+  <p>The extension reads the following information from the current browser tab:</p>
+  <ul>
+    <li>Post URLs (links to individual Instagram or Threads posts)</li>
+    <li>Post thumbnail image URLs</li>
+    <li>The platform name (Instagram or Threads)</li>
+    <li>A local timestamp indicating when the post was collected</li>
+  </ul>
+  <p>This data is only read when you actively click <strong>Start Capture</strong>.</p>
+
+  <h2>How Data Is Used</h2>
+  <ul>
+    <li>All collected data is stored <strong>only in your browser's memory</strong> during the active session.</li>
+    <li>Data is <strong>never sent to any external server</strong>, third party, or database.</li>
+    <li>Data is exported exclusively to your local device as a CSV or JSON file when you choose to do so.</li>
+    <li>No data persists after you close the side panel or the browser tab.</li>
+  </ul>
+
+  <h2>Permissions Used</h2>
+  <ul>
+    <li><strong>storage</strong> — Temporarily holds scraped data during the active session within the browser.</li>
+    <li><strong>activeTab</strong> — Identifies whether the current tab is Instagram or Threads before capture begins.</li>
+    <li><strong>scripting</strong> — Injects a content script to read post information from the page DOM.</li>
+    <li><strong>sidePanel</strong> — Displays the extension UI as a Chrome side panel.</li>
+    <li><strong>host permissions (instagram.com, threads.com)</strong> — Required to run the content script on these platforms. No data from these pages is transmitted anywhere.</li>
+  </ul>
+
+  <h2>Data Sharing</h2>
+  <p>
+    We do not collect, store, share, sell, or transmit any user data.
+    All information remains on your local device at all times.
+  </p>
+
+  <h2>Third-Party Services</h2>
+  <p>
+    This extension does not integrate with any third-party analytics, tracking,
+    or advertising services.
+  </p>
+
+  <h2>Children's Privacy</h2>
+  <p>
+    This extension is not directed at children under the age of 13 and does not
+    knowingly collect any personal information.
+  </p>
+
+  <h2>Changes to This Policy</h2>
+  <p>
+    We may update this privacy policy from time to time. Any changes will be reflected
+    on this page with an updated date.
+  </p>
+
+  <hr />
+
+  <p>
+    If you have any questions about this privacy policy, please open an issue on the
+    <a href="https://github.com/Chiahsuan-TW/social-saver-extension" target="_blank">
+      GitHub repository
+    </a>.
+  </p>
+</body>
+</html>
