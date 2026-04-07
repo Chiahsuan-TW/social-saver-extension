@@ -16,10 +16,10 @@
 
     <div class="control-actions">
       <button @click="startCapture" :disabled="isCapturing" class="btn-start">
-        ▶ 開始抓取儲存貼文
+        <i class="ri-play-fill"></i> 開始抓取儲存貼文
       </button>
       <button @click="stopCapture" :disabled="!isCapturing" class="btn-stop">
-        ■ 停止
+        <i class="ri-stop-fill"></i> 停止
       </button>
 
       <div class="section-divider">
@@ -28,10 +28,10 @@
 
       <div class="export-row">
         <button @click="exportData" :disabled="count === 0" class="btn-export">
-          ↓ 匯出 CSV
+          <i class="ri-download-line"></i> 匯出 CSV
         </button>
         <button @click="exportJson" :disabled="count === 0" class="btn-export">
-          ↓ 匯出 JSON
+          <i class="ri-download-line"></i> 匯出 JSON
         </button>
       </div>
     </div>
@@ -205,6 +205,10 @@ onMounted(() => {
   });
 });
 </script>
+
+<style>
+@import 'remixicon/fonts/remixicon.css';
+</style>
 
 <style scoped>
 .sidebar-container {
