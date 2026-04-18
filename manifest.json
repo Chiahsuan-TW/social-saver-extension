@@ -7,7 +7,7 @@
       "48": "icon-48.png",
       "128": "icon-128.png"
     },
-    "permissions": ["storage", "activeTab", "sidePanel"],
+    "permissions": ["activeTab", "sidePanel"],
     "host_permissions": [
       "https://www.instagram.com/*",
       "https://www.threads.com/*"

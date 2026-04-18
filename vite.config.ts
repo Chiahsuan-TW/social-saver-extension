@@ -17,5 +17,4 @@ export default defineConfig({
     cors: true,
     origin: 'http://localhost:5173',
   },
-  base: 'http://localhost:5173/',
 })
